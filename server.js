@@ -4,6 +4,7 @@ var validUrl = require('valid-url');
 var request = require('request');
 
 var MongoClient = require('mongodb').MongoClient;
+var ObjectId = require('mongodb').ObjectId;
 var mongourl = process.env.MONGODB_URI || 'mongodb://localhost:27017/imgsrch';
 
 var app = express();
@@ -13,6 +14,47 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var key = 'key=' + (process.env.API_KEY || 'AIzaSyCZURzPGXALgz9XZnYYthBSFMgvoj85zYM');
 var cx = 'cx=' + (process.env.SE_ID || '004233682054932017379:nnt19d9btwo');
+
+
+var insertToHistory = function(query){
+  MongoClient.connect(mongourl, function(err, db){
+    if(err){
+      console.log("Failed to connect to the database");
+      return;
+    }
+    var col = db.collection('history');
+    col.count(function(err, count) {
+      if(err){
+        db.close();
+        console.log("Failed to recieve item count");
+        return;
+      }
+      console.log(count);
+      if(count >= 10){
+        col.findAndModify(
+          {},
+          {when: 1},
+          { $set: { when: new Date(), query: query } }
+        , function(err){
+          db.close();
+          if(err){
+            console.log("Failed to remove old querys", err);
+            return;
+          }
+        });
+      }
+      else{
+        col.insert({ when: new Date(), query: query }, function(err){
+          db.close();
+          if(err){
+            console.log("Failed to insert query");
+            return;
+          }
+        });
+      }
+    });
+  });
+};
 
 app.get('/search/:q', function(req, res){
   var q = req.params.q;
@@ -24,6 +66,7 @@ app.get('/search/:q', function(req, res){
     url += ('&start=' + offset);
   request(url, function (error, response, body) {
     if (!error && response.statusCode == 200) {
+      insertToHistory(q);
       var results = JSON.parse(body).items;
       var items = [];
       res.json(results.map(function(item){
@@ -39,6 +82,29 @@ app.get('/search/:q', function(req, res){
       res.json({'error': 'search failed' });
       console.log("Got an error: ", error, ", status code: ", response.statusCode);
     }
+  });
+});
+
+app.get('/history', function(req, res){
+  MongoClient.connect(mongourl, function(err, db){
+    if(err){
+      console.log("Failed to connect to the database");
+      return;
+    }
+    var col = db.collection('history');
+    col.find({}, {sort: {when: 1}}).toArray(function(err, data){
+      db.close();
+      if(err){
+        console.log("Failed to fetch query history");
+        return;
+      }
+      res.json(data.map(function(item){
+        return {
+          query: item.query,
+          when: item.when
+        };
+      }));
+    });
   });
 });
 

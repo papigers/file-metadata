@@ -1,8 +1,8 @@
 $(document).ready(function () {
 
-  var files;
+  var file;
   $('input[type=file]').on('change', function (event) {
-    files = event.target.files;
+    file = event.target.files;
   });
 
   $('#file-form').on('submit', function () {
@@ -10,22 +10,23 @@ $(document).ready(function () {
     event.preventDefault();
 
     var data = new FormData();
-    $.each(files, function (key, value) {
+    $.each(file, function (key, value) {
       data.append(key, value);
     });
 
     $.ajax({
-      url: window.location.origin + '/analyze/',
+      url: window.location.origin + '/analyse/',
       type: 'POST',
       data: data,
       cache: false,
       processData: false,
       contentType: false,
       error: function (jqXHR, textStatus, errorThrown) {
-        alert('ERRORS: ' + textStatus);
+        alert('Error: '+ textStatus);
       },
       success: function (data) {
-        alert('FILE SIZE: ' + data.fileSize);
+        var json = JSON.parse(data);
+        alert('File Size: ' + json.size);
       }
     });
 

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Image Search</title>
+  <title>File Metadata</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="bower_components/Materialize/dist/css/materialize.min.css"></link>
   <link rel="stylesheet" type="text/css" href="css/main.css"></link>
@@ -10,50 +10,37 @@
 
 <body>
   <div class="container">
-    <h1>Image Search - FreeCodeCamp</h1>
+    <h1>File Metadata - FreeCodeCamp</h1>
     
-    <form class="row" id="searchForm">
-      <div class="input-field col s5 offset-s2">
-        <input placeholder="Search" id="query" type="text">
-      </div>
-      <div class="input-field col s3">
-        <button class="btn waves-effect waves-light" type="submit" id="submit">
-          <i class="material-icons">search</i>
-        </button>
-      </div>
-    </form>
-    <hr>
-
     <div class="row">
       <blockquote>
         <h4>User Stories:</h4>
         <ol>
-          <li>I can get the image URLs, alt text and page urls for a set of images relating to a given search string.</li>
-          <li>I can paginate through the responses by adding a ?offset=2 parameter to the URL.</li>
-          <li>I can get a list of the most recently submitted search strings.</li>
+          <li>I can submit a FormData object that includes a file upload.</li>
+          <li>When I submit something, I will receive the file size in bytes within the JSON response.</li>
         </ol>
       </blockquote>
     </div>
     
-    <div class="row">
-      <h4>Usage example:</h4>
-      <div class="col s6">
-        <h6>Search:</h6>
-        <div class="wrapper" name="search">
-          <div class="content">
-            https://fccimage-search.herokuapp.com/search/papigers?offset=2
-          </div>
+    <hr>
+
+    <form class="row" id="file-form" enctype="multipart/form-data">
+      <div class="file-field input-field col s5 offset-s2">
+        <div class="btn mybtn waves-effect waves-light">
+          <i class="material-icons">insert_drive_file</i>
+          <input type="file">
         </div>
-      </div>
-      <div class="col s6">
-        <h6>View History:</h6>
-        <div class="wrapper" name="history">
-          <div class="content">
-            https://fccimage-search.herokuapp.com/history
-          </div>
+        <div class="file-path-wrapper">
+          <input class="file-path" type="text" id="file">
         </div>
-      </div>
     </div>
+      <div class="input-field col s3">
+        <button class="btn waves-effect waves-light mybtn" type="submit">
+          <i class="material-icons">file_upload</i>
+        </button>
+      </div>
+    </form>
+    
   </div>
 
   <script type="application/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>

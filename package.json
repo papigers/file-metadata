@@ -1,5 +1,5 @@
 {
-  "name": "image-search",
+  "name": "file-metadata",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -10,19 +10,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/papigers/image-search.git"
+    "url": "git+https://github.com/papigers/file-metadata.git"
   },
   "author": "Gershon Papi",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/papigers/image-search/issues"
+    "url": "https://github.com/papigers/file-metadata/issues"
   },
-  "homepage": "https://github.com/papigers/image-search#readme",
+  "homepage": "https://github.com/papigers/file-metadata#readme",
   "dependencies": {
     "bower": "^1.7.9",
-    "express": "^4.13.4",
-    "mongodb": "^2.1.18",
-    "request": "^2.72.0",
-    "valid-url": "^1.0.9"
+    "express": "^4.13.4"
   }
 }

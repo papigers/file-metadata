@@ -31,36 +31,32 @@ blockquote{
   border-left: none;
 }
 
-#query{
+#file{
   border: solid 1px rgba(51,51,51, .2);
   padding: 5px 10px;
   box-sizing: border-box;
   position: relative;
-  left: 0.75rem;
-  border-top-left-radius: 2px;
-  border-bottom-left-radius: 2px;
+  border-radius: 2px;
 }
 
-#query:focus{
+#file:focus{
   border: solid 1px #bb3b40;
   box-shadow: none;
 }
 
-#submit{
+.mybtn, .mybtn:focus{
   height: 3rem;
   line-height: 3rem;
   position relative;
   right: 0.75rem;
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
-  
+  cursor: pointer;
   background-color: #bb3b40;
 }
 
-#submit:hover{
+.mybtn:hover{
   background-color: #d33b40;
 }
 
-#submit i{
+.mybtn i{
   font-size: 1.75rem;
 }
